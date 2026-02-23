@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Giftess Admin Panel</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Playfair+Display:wght@400;600;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="admin.css"/>
+</head>
+<body>
+
+<!-- TOAST -->
+<div id="toast"></div>
+
+<!-- ════════════════════
+     ADMIN LOGIN GATE
+════════════════════ -->
+<div id="loginGate" class="login-gate">
+  <div class="login-card">
+    <div class="login-logo">🎁 giftess</div>
+    <h2>Admin Panel</h2>
+    <p class="login-sub">Sign in with your admin account</p>
+    <div class="form-group">
+      <label>Email</label>
+      <input type="email" id="gateEmail" placeholder="admin@giftess.com"/>
+      <div class="form-err" id="gateEmailErr"></div>
+    </div>
+    <div class="form-group">
+      <label>Password</label>
+      <input type="password" id="gatePw" placeholder="••••••••" onkeydown="if(event.key==='Enter')gateLogin()"/>
+      <div class="form-err" id="gatePwErr"></div>
+    </div>
+    <button class="btn-full" onclick="gateLogin()">Login to Admin</button>
+    <a href="index.html" class="back-link">← Back to Store</a>
+  </div>
+</div>
+
+<!-- ════════════════════
+     ADMIN PANEL
+════════════════════ -->
+<div id="adminApp" style="display:none;">
+
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo">🎁 <span>giftess</span> <small>Admin</small></div>
+    <nav class="sidebar-nav">
+      <div class="nav-item active" onclick="goPanel('dashboard',this)"><span>📊</span> Dashboard</div>
+      <div class="nav-item" onclick="goPanel('products',this)"><span>🎁</span> Products</div>
+      <div class="nav-item" onclick="goPanel('categories',this)"><span>🗂️</span> Categories</div>
+      <div class="nav-item" onclick="goPanel('orders',this)"><span>📦</span> Orders</div>
+      <div class="nav-item" onclick="goPanel('users',this)"><span>👥</span> Users</div>
+      <div class="nav-item" onclick="goPanel('hero',this)"><span>🖼️</span> Hero Banner</div>
+      <div class="nav-item" onclick="goPanel('settings',this)"><span>⚙️</span> Settings</div>
+    </nav>
+    <div class="sidebar-footer">
+      <a href="index.html" class="sidebar-btn">← Back to Store</a>
+      <button class="sidebar-btn" onclick="adminLogout()">Logout</button>
+    </div>
+  </aside>
+
+  <!-- Main content -->
+  <main class="admin-main">
+    <div class="topbar">
+      <div class="topbar-left">
+        <button class="menu-toggle" onclick="toggleSidebar()">☰</button>
+        <h1 id="pageTitle">Dashboard</h1>
+      </div>
+      <div class="topbar-right">
+        <span id="adminEmail"></span>
+      </div>
+    </div>
+
+    <div class="content">
+
+      <!-- ── DASHBOARD ── -->
+      <div class="panel active" id="panel-dashboard">
+        <div class="stats-grid" id="statsGrid"></div>
+        <div class="card">
+          <div class="card-header"><h3>Recent Orders</h3></div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Order ID</th><th>Customer</th><th>Items</th><th>Total</th><th>Status</th><th>Date</th></tr></thead>
+              <tbody id="dashOrdersTbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── PRODUCTS ── -->
+      <div class="panel" id="panel-products">
+        <div class="toolbar">
+          <input type="text" class="search-input" placeholder="Search products…" oninput="searchProducts(this.value)"/>
+          <button class="btn-add" onclick="openProductForm()">+ Add Product</button>
+        </div>
+        <div class="card">
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Photo</th><th>Name</th><th>Category</th><th>Price</th><th>Sale Price</th><th>Photos</th><th>Status</th><th>Actions</th></tr></thead>
+              <tbody id="productsTbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── CATEGORIES ── -->
+      <div class="panel" id="panel-categories">
+        <div class="toolbar">
+          <input type="text" class="search-input" placeholder="Search categories…" oninput="searchCategories(this.value)"/>
+          <button class="btn-add" onclick="openCategoryForm()">+ Add Category</button>
+        </div>
+        <div class="card">
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Photo</th><th>Name</th><th>Slug</th><th>Order</th><th>Status</th><th>Actions</th></tr></thead>
+              <tbody id="categoriesTbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── ORDERS ── -->
+      <div class="panel" id="panel-orders">
+        <div class="toolbar">
+          <input type="text" class="search-input" placeholder="Search by Order ID or customer…" oninput="searchOrders(this.value)"/>
+          <select class="search-input" style="max-width:200px;" onchange="filterOrdersByStatus(this.value)">
+            <option value="">All Statuses</option>
+            <option value="pending">Pending</option>
+            <option value="processing">Processing</option>
+            <option value="shipped">Shipped</option>
+            <option value="delivered">Delivered</option>
+            <option value="cancelled">Cancelled</option>
+          </select>
+        </div>
+        <div class="card">
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Order ID</th><th>Customer</th><th>Email</th><th>Items</th><th>Total</th><th>Status</th><th>Tracking Link</th><th>Date</th><th>Actions</th></tr></thead>
+              <tbody id="ordersTbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── USERS ── -->
+      <div class="panel" id="panel-users">
+        <div class="toolbar">
+          <input type="text" class="search-input" placeholder="Search users…" oninput="searchUsers(this.value)"/>
+        </div>
+        <div class="card">
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Name</th><th>Email</th><th>Phone</th><th>Role</th><th>Joined</th><th>Actions</th></tr></thead>
+              <tbody id="usersTbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── HERO EDITOR ── -->
+      <div class="panel" id="panel-hero">
+        <div class="card" style="max-width:680px;">
+          <div class="card-header"><h3>Edit Hero Banner</h3></div>
+          <div class="hero-preview" id="heroPrev">
+            <h2 id="prevTitle">Loading…</h2>
+            <p  id="prevSub"></p>
+          </div>
+          <div class="form-group"><label>Main Heading</label><input type="text" id="hTitle" oninput="liveHero()"/></div>
+          <div class="form-group"><label>Subtitle</label><input type="text" id="hSub" oninput="liveHero()"/></div>
+          <div class="form-row">
+            <div class="form-group"><label>Button 1 Text</label><input type="text" id="hBtn1"/></div>
+            <div class="form-group"><label>Button 2 Text</label><input type="text" id="hBtn2"/></div>
+          </div>
+          <button class="btn-full" onclick="saveHero()">Save Hero Banner</button>
+        </div>
+      </div>
+
+      <!-- ── SETTINGS ── -->
+      <div class="panel" id="panel-settings">
+        <div class="settings-grid">
+          <!-- Store Info -->
+          <div class="card">
+            <div class="card-header"><h3>Store Info</h3></div>
+            <div class="form-group"><label>Store Name</label><input type="text" id="sName"/></div>
+            <div class="form-group"><label>WhatsApp Number (orders sent here)</label><input type="text" id="sWa" placeholder="916002698296"/><small style="color:var(--gray);font-size:.75rem;">Format: country code + number, no + or spaces. e.g. 916002698296</small></div>
+            <div class="form-group"><label>Contact Email</label><input type="email" id="sEmail"/></div>
+          </div>
+          <!-- Shipping & Tax -->
+          <div class="card">
+            <div class="card-header"><h3>Shipping & Tax</h3></div>
+            <div class="form-group"><label>Shipping Fee (₹)</label><input type="number" id="sShipping" min="0" placeholder="99"/></div>
+            <div class="form-group"><label>Free Shipping Minimum Order (₹)</label><input type="number" id="sFreeMin" min="0" placeholder="999"/><small style="color:var(--gray);font-size:.75rem;">Orders above this amount get free shipping</small></div>
+            <div class="form-group" style="display:flex;align-items:center;gap:.8rem;margin-top:.5rem;">
+              <input type="checkbox" id="sTaxEnabled" style="width:auto;accent-color:var(--rose)"/>
+              <label for="sTaxEnabled" style="margin:0;font-weight:700;">Enable Tax Calculation</label>
+            </div>
+            <div class="form-group"><label>Tax Percentage (%)</label><input type="number" id="sTaxPercent" min="0" max="100" step="0.01" placeholder="18"/></div>
+          </div>
+          <!-- Promo Codes -->
+          <div class="card" style="grid-column:1/-1;">
+            <div class="card-header"><h3>Promo / Discount Codes</h3></div>
+            <div id="promoCodesList" style="margin-bottom:1rem;"></div>
+            <div style="display:flex;gap:.8rem;align-items:flex-end;flex-wrap:wrap;">
+              <div class="form-group" style="flex:1;min-width:120px;margin:0;"><label>Code</label><input type="text" id="newPromoCode" placeholder="SAVE10" style="text-transform:uppercase"/></div>
+              <div class="form-group" style="min-width:120px;margin:0;"><label>Type</label>
+                <select id="newPromoType"><option value="percent">% Off</option><option value="flat">₹ Off (flat)</option></select>
+              </div>
+              <div class="form-group" style="min-width:100px;margin:0;"><label>Value</label><input type="number" id="newPromoValue" placeholder="10" min="1"/></div>
+              <button class="btn-sm btn-edit" style="padding:.65rem 1.4rem;font-size:.88rem;" onclick="addPromoCode()">+ Add Code</button>
+            </div>
+          </div>
+          <!-- Theme Colors -->
+          <div class="card">
+            <div class="card-header"><h3>Theme Colors</h3></div>
+            <div class="color-row"><label>Primary Rose</label><input type="color" id="cRose" value="#b5536a" oninput="applyColor('--rose',this.value)"/></div>
+            <div class="color-row"><label>Pink Background</label><input type="color" id="cPink" value="#f9e8e8" oninput="applyColor('--pink-soft',this.value)"/></div>
+            <div class="color-row"><label>Text Charcoal</label><input type="color" id="cChar" value="#2c2c2c" oninput="applyColor('--charcoal',this.value)"/></div>
+          </div>
+        </div>
+        <div style="margin-top:1.5rem;">
+          <button class="btn-full" onclick="saveSettings()" style="max-width:300px;">Save All Settings</button>
+        </div>
+      </div>
+
+    </div><!-- /content -->
+  </main>
+</div><!-- /adminApp -->
+
+<!-- ════════════════════
+     PRODUCT MODAL
+════════════════════ -->
+<div class="modal-overlay" id="productModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('productModal')">✕</button>
+    <h3 id="productModalTitle">Add Product</h3>
+    <input type="hidden" id="editId"/>
+
+    <div class="form-row">
+      <div class="form-group"><label>Product Name *</label><input type="text" id="pName" placeholder="Crunch Love Box"/><div class="form-err" id="pNameErr"></div></div>
+      <div class="form-group">
+        <label>Category *</label>
+        <select id="pCat">
+          <option value="">Select…</option>
+        </select>
+        <div class="form-err" id="pCatErr"></div>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group"><label>Original Price (₹) *</label><input type="number" id="pOld" placeholder="1499"/><div class="form-err" id="pPriceErr"></div></div>
+      <div class="form-group"><label>Sale Price (₹) *</label><input type="number" id="pSale" placeholder="1299"/></div>
+    </div>
+
+    <div class="form-group"><label>Description</label><textarea id="pDesc" placeholder="Describe this hamper…"></textarea></div>
+
+    <div class="form-group">
+      <label>Product Photos (up to 6) — First photo = main display</label>
+      <div class="upload-area" onclick="document.getElementById('photoInput').click()">
+        <input type="file" id="photoInput" accept="image/*" multiple onchange="handlePhotoFiles(this)"/>
+        <div style="font-size:2.5rem">📷</div>
+        <p>Click to upload photos</p>
+        <small>JPG, PNG, WEBP — max 6 photos</small>
+      </div>
+      <div class="photo-previews" id="photoPreviews"></div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label>Status</label>
+        <select id="pStatus"><option value="active">Active</option><option value="inactive">Inactive</option></select>
+      </div>
+      <div class="form-group">
+        <label>WhatsApp Order Message</label>
+        <input type="text" id="pWa" placeholder="Hi! I want to order…"/>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label><input type="checkbox" id="pFeatured" style="width:auto;margin-right:.5rem;"/> Show in Best Sellers (Featured)</label>
+    </div>
+
+    <button class="btn-full" onclick="saveProduct()">Save Product</button>
+  </div>
+</div>
+
+<!-- ════════════════════
+     CATEGORY MODAL
+════════════════════ -->
+<div class="modal-overlay" id="categoryModal">
+  <div class="modal" style="max-width:520px;">
+    <button class="modal-close" onclick="closeModal('categoryModal')">✕</button>
+    <h3 id="categoryModalTitle">Add Category</h3>
+    <input type="hidden" id="editCatId"/>
+
+    <div class="form-group">
+      <label>Category Name *</label>
+      <input type="text" id="cName" placeholder="e.g. Birthday"/>
+      <div class="form-err" id="cNameErr"></div>
+    </div>
+
+    <div class="form-group">
+      <label>Slug (used in filter) *</label>
+      <input type="text" id="cSlug" placeholder="e.g. Birthday"/>
+      <div class="form-err" id="cSlugErr"></div>
+    </div>
+
+    <div class="form-group">
+      <label>Display Order</label>
+      <input type="number" id="cOrder" placeholder="1" value="1"/>
+    </div>
+
+    <div class="form-group">
+      <label>Category Photo</label>
+      <div class="upload-area" onclick="document.getElementById('catPhotoInput').click()">
+        <input type="file" id="catPhotoInput" accept="image/*" onchange="handleCatPhoto(this)"/>
+        <div style="font-size:2.5rem">🖼️</div>
+        <p>Click to upload category photo</p>
+        <small>JPG, PNG, WEBP</small>
+      </div>
+      <div id="catPhotoPreview" style="margin-top:.8rem;"></div>
+    </div>
+
+    <div class="form-group">
+      <label>Emoji (used if no photo)</label>
+      <input type="text" id="cEmoji" placeholder="🎂" maxlength="4"/>
+    </div>
+
+    <div class="form-group">
+      <label>Status</label>
+      <select id="cStatus"><option value="active">Active</option><option value="inactive">Inactive</option></select>
+    </div>
+
+    <button class="btn-full" onclick="saveCategory()">Save Category</button>
+  </div>
+</div>
+
+<!-- ════════════════════
+     ORDER DETAIL MODAL
+════════════════════ -->
+<div class="modal-overlay" id="orderDetailModal">
+  <div class="modal" style="max-width:580px;">
+    <button class="modal-close" onclick="closeModal('orderDetailModal')">✕</button>
+    <h3 id="orderDetailTitle">Order Details</h3>
+    <div id="orderDetailBody"></div>
+    <div class="form-group" style="margin-top:1rem;">
+      <label>Tracking Link (shown to customer)</label>
+      <input type="url" id="trackingLinkInput" placeholder="https://track.delhivery.com/..."/>
+    </div>
+    <div class="form-group">
+      <label>Update Status</label>
+      <select id="orderStatusSelect">
+        <option value="pending">Pending</option>
+        <option value="processing">Processing</option>
+        <option value="shipped">Shipped</option>
+        <option value="delivered">Delivered</option>
+        <option value="cancelled">Cancelled</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Internal Notes (admin only)</label>
+      <textarea id="orderNotesInput" rows="2" placeholder="Add notes about this order…"></textarea>
+    </div>
+    <button class="btn-full" onclick="saveOrderUpdate()">Save Changes</button>
+  </div>
+</div>
+
+<!-- ── SCRIPTS ── -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="config.js"></script>
+<script src="admin.js"></script>
+</body>
+</html>

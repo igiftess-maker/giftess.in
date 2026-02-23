@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Refund & Return Policy – Giftess</title>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="style.css"/>
+  <style>
+    .policy-page { max-width: 760px; margin: 3rem auto; padding: 0 5%; }
+    .policy-page h1 { font-family: 'Playfair Display', serif; font-size: 2rem; margin-bottom: .5rem; }
+    .policy-page .updated { font-size: .82rem; color: var(--gray); margin-bottom: 2rem; }
+    .policy-page h2 { font-family: 'Playfair Display', serif; font-size: 1.2rem; margin: 1.6rem 0 .6rem; }
+    .policy-page p, .policy-page li { color: var(--gray); line-height: 1.8; font-size: .95rem; margin-bottom: .8rem; }
+    .policy-page ul { list-style: disc; padding-left: 1.4rem; }
+    .policy-page li { margin-bottom: .4rem; }
+    .contact-box {
+      background: var(--pink-soft); border-radius: 12px; padding: 1.4rem;
+      margin-top: 2rem; text-align: center;
+    }
+    .contact-box a { color: var(--rose); font-weight: 700; }
+  </style>
+</head>
+<body>
+
+<div id="toast"></div>
+
+<nav class="navbar" id="navbar">
+  <a class="logo" href="index.html">giftess</a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="products.html">Shop</a></li>
+    <li><a href="index.html#about">About</a></li>
+    <li><a href="index.html#contact-us">Contact</a></li>
+  </ul>
+  <div class="nav-right">
+    <div class="cart-wrap" onclick="window.location='products.html'">
+      <svg viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+    </div>
+    <div class="hamburger" id="hamburger" onclick="toggleNav()"><span></span><span></span><span></span></div>
+  </div>
+</nav>
+
+<div class="policy-page">
+  <h1>Refund & Return Policy</h1>
+  <p class="updated">Last updated: January 2026</p>
+
+  <p>At Giftess, your satisfaction is our top priority. We take great pride in creating beautiful, carefully curated gift hampers. We understand that sometimes things don't go as expected, and we are committed to making it right.</p>
+
+  <h2>Eligibility for Returns & Refunds</h2>
+  <p>We accept return and refund requests under the following conditions:</p>
+  <ul>
+    <li>Requests must be made within <strong>48 hours of receiving your order</strong>.</li>
+    <li>Products must be unused, undamaged, and in their original packaging.</li>
+    <li>You must provide your Order ID and photos of the item(s) if reporting damage.</li>
+    <li>Personalised and custom hampers are <strong>non-refundable</strong> once production has begun.</li>
+    <li>Perishable items such as chocolates, food products, and flowers are <strong>non-refundable</strong>.</li>
+  </ul>
+
+  <h2>Damaged or Incorrect Items</h2>
+  <p>If you receive a damaged, defective, or incorrect product, please contact us on WhatsApp within <strong>24 hours</strong> of delivery with:</p>
+  <ul>
+    <li>Your Order ID</li>
+    <li>Clear photos of the damaged/incorrect item(s)</li>
+    <li>A brief description of the issue</li>
+  </ul>
+  <p>We will arrange a free replacement or a full refund at no additional cost to you.</p>
+
+  <h2>Non-Refundable Items</h2>
+  <ul>
+    <li>Custom-made or personalised hampers after order confirmation</li>
+    <li>Perishable items (chocolates, food, flowers)</li>
+    <li>Items that have been used or are not in original condition</li>
+    <li>Orders where delivery failed due to incorrect address provided by customer</li>
+  </ul>
+
+  <h2>How to Request a Refund</h2>
+  <p>To request a refund or return, please reach us on WhatsApp at <strong>+91 6002698296</strong> with your Order ID and relevant photos. Our customer support team will respond within 24 hours (Mon–Sat, 9 AM – 9 PM IST).</p>
+
+  <h2>Refund Processing Time</h2>
+  <p>Approved refunds are processed within <strong>5–7 business days</strong>. The refund will be credited back to your original payment method. Bank processing times may vary.</p>
+
+  <h2>Cancellations</h2>
+  <p>Orders can be cancelled within <strong>2 hours</strong> of placing them, provided the order has not yet been dispatched. To cancel, contact us immediately on WhatsApp with your Order ID.</p>
+
+  <h2>Contact Us</h2>
+  <p>We are committed to resolving all issues fairly and promptly. Please don't hesitate to reach out.</p>
+
+  <div class="contact-box">
+    <p style="font-weight:700;font-size:1rem;margin-bottom:.5rem;">Need help with your order?</p>
+    <p>Chat with us on <a href="https://wa.me/916002698296" target="_blank">WhatsApp: +91 6002698296</a><br/>or on Instagram: <a href="https://www.instagram.com/gift.ess" target="_blank">@gift.ess</a></p>
+    <p style="font-size:.82rem;margin-top:.5rem;">Available Mon–Sat, 9 AM – 9 PM IST</p>
+  </div>
+</div>
+
+<footer id="contact">
+  <div class="footer-bottom">
+    <p>© 2026 Giftess. All Rights Reserved. | <a href="index.html" style="color:#aaa;">Home</a> | <a href="products.html" style="color:#aaa;">Shop</a></p>
+  </div>
+</footer>
+
+<script>
+function toggleNav() { document.getElementById('navLinks').classList.toggle('open'); }
+</script>
+</body>
+</html>

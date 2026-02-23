@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>All Products – Giftess</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="style.css"/>
+  <style>
+    .all-products-hero {
+      background: linear-gradient(135deg, #fdf0f0 0%, #fce8e8 40%, #fff5f0 100%);
+      padding: 3rem 5%; text-align: center;
+    }
+    .all-products-hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.6rem, 3vw, 2.4rem); font-weight: 700;
+      margin-bottom: .5rem;
+    }
+    .all-products-hero p { color: var(--gray); font-size: .95rem; }
+
+    .products-page-layout {
+      display: grid;
+      grid-template-columns: 240px 1fr;
+      gap: 2rem;
+      padding: 2rem 5%;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+    .filters-sidebar {
+      position: sticky; top: 80px;
+      align-self: start;
+    }
+    .filter-card {
+      background: #fff; border-radius: 12px;
+      box-shadow: 0 2px 12px rgba(0,0,0,.06);
+      padding: 1.2rem; margin-bottom: 1rem;
+    }
+    .filter-card h4 {
+      font-size: .9rem; font-weight: 700; margin-bottom: .8rem;
+      color: var(--charcoal);
+    }
+    .filter-btn-group { display: flex; flex-direction: column; gap: .4rem; }
+    .filter-btn {
+      background: none; border: 2px solid var(--border);
+      border-radius: 8px; padding: .45rem .8rem;
+      font-size: .82rem; text-align: left; cursor: pointer;
+      transition: all .2s; color: var(--charcoal);
+    }
+    .filter-btn:hover { border-color: var(--rose); color: var(--rose); }
+    .filter-btn.active { background: var(--rose); color: #fff; border-color: var(--rose); }
+
+    .products-main-area { min-width: 0; }
+    .products-toolbar {
+      display: flex; align-items: center; gap: 1rem;
+      margin-bottom: 1.4rem; flex-wrap: wrap;
+    }
+    .prod-search {
+      flex: 1; min-width: 200px;
+      border: 2px solid var(--border); border-radius: 8px;
+      padding: .55rem 1rem; font-family: 'Lato', sans-serif;
+      font-size: .88rem; outline: none; transition: border .2s;
+    }
+    .prod-search:focus { border-color: var(--rose); }
+    .prod-sort {
+      border: 2px solid var(--border); border-radius: 8px;
+      padding: .5rem .9rem; font-family: 'Lato', sans-serif;
+      font-size: .85rem; outline: none; cursor: pointer;
+    }
+    .prod-count { font-size: .85rem; color: var(--gray); white-space: nowrap; }
+
+    .all-products-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.4rem;
+    }
+
+    .load-more-wrap { text-align: center; margin-top: 2rem; }
+    .btn-load-more {
+      background: transparent; border: 2px solid var(--rose);
+      color: var(--rose); padding: .75rem 2.5rem; border-radius: 8px;
+      font-weight: 700; font-size: .95rem; cursor: pointer;
+      transition: all .2s;
+    }
+    .btn-load-more:hover { background: var(--rose); color: #fff; }
+
+    @media (max-width: 900px) {
+      .products-page-layout { grid-template-columns: 1fr; }
+      .filters-sidebar { position: static; }
+      .filter-btn-group { flex-direction: row; flex-wrap: wrap; }
+      .all-products-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 500px) {
+      .all-products-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- TOAST -->
+<div id="toast"></div>
+
+<!-- NAVBAR -->
+<nav class="navbar" id="navbar">
+  <a class="logo" href="index.html">giftess</a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="index.html#bestsellers">Best Sellers</a></li>
+    <li><a href="products.html" class="active-nav">All Products</a></li>
+    <li><a href="index.html#about">About</a></li>
+    <li><a href="index.html#contact">Contact</a></li>
+  </ul>
+  <div class="nav-right">
+    <button class="nav-btn outline" id="btnLogin"  onclick="openModal('authModal')">Login</button>
+    <button class="nav-btn"         id="btnRegister" onclick="openModal('authModal'); switchTab('register')">Register</button>
+    <div class="user-chip" id="userChip" style="display:none">
+      <span class="chip-dot"></span>
+      <span id="chipName"></span>
+      <button class="chip-logout" onclick="openModal('myOrdersModal')">My Orders</button>
+      <button class="chip-logout" onclick="doLogout()">Logout</button>
+    </div>
+    <div class="cart-wrap" onclick="openCart()">
+      <svg viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+      <span class="cart-badge" id="cartBadge">0</span>
+    </div>
+    <div class="hamburger" id="hamburger" onclick="toggleNav()">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="all-products-hero">
+  <h1>All Products</h1>
+  <p>Browse our full collection of premium gift hampers</p>
+</div>
+
+<!-- MAIN LAYOUT -->
+<div class="products-page-layout">
+
+  <!-- FILTERS SIDEBAR -->
+  <aside class="filters-sidebar">
+    <div class="filter-card">
+      <h4>Category</h4>
+      <div class="filter-btn-group" id="categoryFilterGroup">
+        <button class="filter-btn active" onclick="setCatFilter('', this)">All</button>
+      </div>
+    </div>
+    <div class="filter-card">
+      <h4>Price Range</h4>
+      <div class="filter-btn-group">
+        <button class="filter-btn" onclick="setPriceFilter(0,1000,this)">Under ₹1,000</button>
+        <button class="filter-btn" onclick="setPriceFilter(1000,2000,this)">₹1,000 – ₹2,000</button>
+        <button class="filter-btn" onclick="setPriceFilter(2000,5000,this)">₹2,000 – ₹5,000</button>
+        <button class="filter-btn" onclick="setPriceFilter(5000,999999,this)">₹5,000+</button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- PRODUCTS AREA -->
+  <div class="products-main-area">
+    <div class="products-toolbar">
+      <input type="text" class="prod-search" id="prodSearch" placeholder="Search products…" oninput="onSearchChange()"/>
+      <select class="prod-sort" id="prodSort" onchange="applyFilters()">
+        <option value="newest">Newest First</option>
+        <option value="price_asc">Price: Low to High</option>
+        <option value="price_desc">Price: High to Low</option>
+        <option value="name_asc">Name: A–Z</option>
+      </select>
+      <span class="prod-count" id="prodCount">Loading…</span>
+    </div>
+
+    <div class="all-products-grid" id="allProductsGrid">
+      <div class="loading-spinner" style="grid-column:1/-1">Loading products…</div>
+    </div>
+
+    <div class="load-more-wrap" id="loadMoreWrap" style="display:none;">
+      <button class="btn-load-more" onclick="loadMore()">Load More Products</button>
+    </div>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<footer id="contact">
+  <div class="footer-links">
+    <a href="index.html#about">About Us</a>
+    <a href="index.html#contact">Contact Us</a>
+    <a href="#">Refund Policy</a>
+    <a href="index.html">Home</a>
+    <a href="admin.html">Admin Login</a>
+  </div>
+  <p>© 2026 Giftess. All Rights Reserved.</p>
+</footer>
+
+<!-- AUTH MODAL -->
+<div class="modal-overlay" id="authModal">
+  <div class="modal modal-sm">
+    <button class="modal-close" onclick="closeModal('authModal')">✕</button>
+    <div class="auth-tabs">
+      <div class="auth-tab active" id="tabLogin" onclick="switchTab('login')">Login</div>
+      <div class="auth-tab" id="tabRegister" onclick="switchTab('register')">Register</div>
+    </div>
+    <div id="loginPane">
+      <div class="form-group"><label>Email</label><input type="email" id="loginEmail" placeholder="you@email.com"/><div class="form-err" id="loginEmailErr"></div></div>
+      <div class="form-group"><label>Password</label><input type="password" id="loginPw" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()"/><div class="form-err" id="loginErr"></div></div>
+      <button class="btn-full" onclick="doLogin()">Login</button>
+      <p class="auth-switch">Don't have an account? <button class="link-btn" onclick="switchTab('register')">Register</button></p>
+    </div>
+    <div id="registerPane" style="display:none">
+      <div class="form-row">
+        <div class="form-group"><label>First Name</label><input type="text" id="regFirst" placeholder="Jane"/><div class="form-err" id="regFirstErr"></div></div>
+        <div class="form-group"><label>Last Name</label><input type="text" id="regLast" placeholder="Doe"/></div>
+      </div>
+      <div class="form-group"><label>Email</label><input type="email" id="regEmail" placeholder="you@email.com"/><div class="form-err" id="regEmailErr"></div></div>
+      <div class="form-group"><label>Phone</label><input type="tel" id="regPhone" placeholder="9876543210"/></div>
+      <div class="form-group"><label>Password</label><input type="password" id="regPw" placeholder="Min 6 characters"/><div class="form-err" id="regPwErr"></div></div>
+      <div class="form-group"><label>Confirm Password</label><input type="password" id="regPw2" placeholder="Repeat password"/><div class="form-err" id="regPw2Err"></div></div>
+      <button class="btn-full" onclick="doRegister()">Create Account</button>
+      <p class="auth-switch">Already have an account? <button class="link-btn" onclick="switchTab('login')">Login</button></p>
+    </div>
+  </div>
+</div>
+
+<!-- CART MODAL -->
+<div class="modal-overlay" id="cartModal">
+  <div class="modal modal-md">
+    <button class="modal-close" onclick="closeModal('cartModal')">✕</button>
+    <h3>🛒 Your Cart</h3>
+    <div id="cartItemsWrap" style="max-height:300px;overflow-y:auto;margin-bottom:1rem;"></div>
+    <div class="promo-row">
+      <input type="text" id="promoInput" placeholder="Promo / Discount Code" class="promo-input"/>
+      <button class="btn-promo" onclick="applyPromoCode()">Apply</button>
+    </div>
+    <div id="promoMsg" class="promo-msg"></div>
+    <div id="cartTotal" class="cart-total" style="margin-top:.6rem;"></div>
+    <button class="btn-full" style="margin-top:1rem;" onclick="doCheckout()">Proceed to Checkout →</button>
+  </div>
+</div>
+
+<!-- CHECKOUT MODAL -->
+<div class="modal-overlay" id="checkoutModal">
+  <div class="modal modal-lg">
+    <button class="modal-close" onclick="closeModal('checkoutModal')">✕</button>
+    <h3>📦 Delivery Details</h3>
+    <p style="font-size:.85rem;color:var(--gray);margin-bottom:1rem;">Fill in your delivery information to complete your order.</p>
+    <div class="checkout-layout">
+      <div class="checkout-form">
+        <div class="form-row">
+          <div class="form-group"><label>Full Name *</label><input type="text" id="chkName" placeholder="Your full name"/><div class="form-err" id="chkNameErr"></div></div>
+          <div class="form-group"><label>Phone Number *</label><input type="tel" id="chkPhone" placeholder="10-digit mobile number"/><div class="form-err" id="chkPhoneErr"></div></div>
+        </div>
+        <div class="form-group"><label>Email Address *</label><input type="email" id="chkEmail" placeholder="you@email.com"/><div class="form-err" id="chkEmailErr"></div></div>
+        <div class="form-group"><label>PIN Code *</label><input type="text" id="chkPin" placeholder="6-digit PIN code" maxlength="6" oninput="this.value=this.value.replace(/\D/g,'')"/><div class="form-err" id="chkPinErr"></div></div>
+        <div class="form-group"><label>Full Delivery Address *</label><textarea id="chkAddress" rows="3" placeholder="House/Flat No., Street, Area, City, State…"></textarea><div class="form-err" id="chkAddressErr"></div></div>
+        <div class="checkout-note">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+          Your order details will be sent to our WhatsApp for confirmation.
+        </div>
+        <button class="btn-full btn-place-order" onclick="placeOrder()">Place Order & Confirm on WhatsApp →</button>
+      </div>
+      <div class="checkout-summary-panel" id="checkoutSummary"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ORDER SUCCESS MODAL -->
+<div class="modal-overlay" id="orderSuccessModal">
+  <div class="modal modal-sm" style="text-align:center;">
+    <div style="font-size:4rem;margin-bottom:1rem;">🎉</div>
+    <h3>Order Placed!</h3>
+    <p style="color:var(--gray);margin:.5rem 0;">Your order has been sent to our team via WhatsApp.</p>
+    <div style="background:var(--pink-soft);border-radius:10px;padding:1rem;margin:1rem 0;">
+      <div style="font-size:.82rem;color:var(--gray);">Order ID</div>
+      <div id="orderSuccessId" style="font-family:monospace;font-size:1.1rem;font-weight:700;color:var(--rose);"></div>
+      <div style="font-size:.82rem;color:var(--gray);margin-top:.4rem;">Total</div>
+      <div id="orderSuccessTotal" style="font-size:1.2rem;font-weight:700;"></div>
+    </div>
+    <button class="btn-full" onclick="closeModal('orderSuccessModal')" style="margin-top:1rem;">Continue Shopping</button>
+  </div>
+</div>
+
+<!-- MY ORDERS MODAL -->
+<div class="modal-overlay" id="myOrdersModal">
+  <div class="modal" style="max-width:700px;">
+    <button class="modal-close" onclick="closeModal('myOrdersModal')">✕</button>
+    <h3>📦 My Orders</h3>
+    <div id="myOrdersList" style="margin-top:1rem;"></div>
+  </div>
+</div>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox">
+  <button class="lb-close" onclick="closeLb()">✕</button>
+  <button class="lb-nav lb-prev" onclick="lbNav(-1)">‹</button>
+  <img id="lbImg" src="" alt="product"/>
+  <button class="lb-nav lb-next" onclick="lbNav(1)">›</button>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="config.js"></script>
+<script src="app.js"></script>
+<script>
+  // Page-specific init for products page
+  const PAGE_SIZE = 20;
+  let allPageProducts = [];
+  let filteredProducts = [];
+  let displayedCount  = 0;
+  let activeCatFilter   = '';
+  let activePriceMin    = 0;
+  let activePriceMax    = 999999;
+
+  async function initProductsPage() {
+    await checkSession();
+    updateCartBadge();
+    // Load categories for filter
+    const { data: cats } = await sb.from('categories').select('*').eq('status','active').order('display_order');
+    if (cats && cats.length) {
+      const group = document.getElementById('categoryFilterGroup');
+      cats.forEach(c => {
+        const btn = document.createElement('button');
+        btn.className = 'filter-btn';
+        btn.textContent = c.name;
+        btn.onclick = () => setCatFilter(c.slug, btn);
+        group.appendChild(btn);
+      });
+    }
+    // Load all products
+    const { data } = await sb.from('products').select('*').eq('status','active').order('created_at', { ascending: false });
+    allPageProducts = data || [];
+    allProducts = allPageProducts; // sync with app.js global
+    applyFilters();
+  }
+
+  function setCatFilter(slug, btn) {
+    activeCatFilter = slug;
+    document.querySelectorAll('#categoryFilterGroup .filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    applyFilters();
+  }
+
+  function setPriceFilter(min, max, btn) {
+    activePriceMin = min; activePriceMax = max;
+    document.querySelectorAll('.filter-btn').forEach(b => {
+      if (b.closest('#categoryFilterGroup')) return;
+      b.classList.remove('active');
+    });
+    btn.classList.add('active');
+    applyFilters();
+  }
+
+  function onSearchChange() { applyFilters(); }
+
+  function applyFilters() {
+    const search = (document.getElementById('prodSearch')?.value || '').toLowerCase().trim();
+    const sort   = document.getElementById('prodSort')?.value || 'newest';
+
+    filteredProducts = allPageProducts.filter(p => {
+      const catOk   = !activeCatFilter || (p.category || '') === activeCatFilter;
+      const priceOk = p.price_sale >= activePriceMin && p.price_sale <= activePriceMax;
+      const searchOk = !search || p.name.toLowerCase().includes(search) || (p.description||'').toLowerCase().includes(search);
+      return catOk && priceOk && searchOk;
+    });
+
+    // Sort
+    if (sort === 'price_asc')  filteredProducts.sort((a,b) => a.price_sale - b.price_sale);
+    if (sort === 'price_desc') filteredProducts.sort((a,b) => b.price_sale - a.price_sale);
+    if (sort === 'name_asc')   filteredProducts.sort((a,b) => a.name.localeCompare(b.name));
+
+    displayedCount = 0;
+    document.getElementById('allProductsGrid').innerHTML = '';
+    document.getElementById('prodCount').textContent = `${filteredProducts.length} products`;
+    loadMore();
+  }
+
+  function loadMore() {
+    const grid = document.getElementById('allProductsGrid');
+    const slice = filteredProducts.slice(displayedCount, displayedCount + PAGE_SIZE);
+    if (!slice.length && displayedCount === 0) {
+      grid.innerHTML = '<div class="no-products" style="grid-column:1/-1">No products found.</div>';
+      document.getElementById('loadMoreWrap').style.display = 'none';
+      return;
+    }
+    slice.forEach((p, i) => {
+      const idx = displayedCount + i;
+      grid.insertAdjacentHTML('beforeend', buildProductCard(p, idx));
+    });
+    displayedCount += slice.length;
+    document.getElementById('loadMoreWrap').style.display =
+      displayedCount < filteredProducts.length ? 'block' : 'none';
+    initReveal();
+  }
+
+  function buildProductCard(p, i) {
+    const hasPhotos = p.photos && p.photos.length > 0;
+    const imgContent = hasPhotos
+      ? `<img src="${p.photos[0]}" alt="${p.name}" loading="lazy"/>`
+      : `<div class="prod-emoji" style="background:${GRADS[i % GRADS.length]};width:100%;height:100%;display:flex;align-items:center;justify-content:center;">${EMOJIS[i % EMOJIS.length]}</div>`;
+    const waMsg = encodeURIComponent(p.wa_message || `Hi! I want to order ${p.name}`);
+    return `
+    <div class="product-card reveal">
+      <div class="prod-img-wrap" onclick="openLightbox('${p.id}',0)">
+        ${imgContent}
+        ${p.price_old > p.price_sale ? '<span class="prod-badge">SALE</span>' : ''}
+      </div>
+      <div class="prod-info">
+        <h3>${p.name}</h3>
+        ${p.description ? `<p class="prod-desc">${p.description.substring(0,60)}…</p>` : ''}
+        <div class="price-wrap">
+          ${p.price_old > p.price_sale ? `<span class="price-old">₹${p.price_old}</span>` : ''}
+          <span class="price-new">₹${p.price_sale}</span>
+        </div>
+      </div>
+      <div class="prod-btns">
+        <button class="btn-cart btn-dark" onclick="addToCart('${p.id}')">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2 3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+          Add to Cart
+        </button>
+      </div>
+    </div>`;
+  }
+
+  document.addEventListener('DOMContentLoaded', initProductsPage);
+</script>
+</body>
+</html>

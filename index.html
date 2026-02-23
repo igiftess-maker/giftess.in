@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Giftess – Premium Customised Gift Hampers</title>
+  <meta name="description" content="Shop premium customised gift hampers for birthdays, anniversaries, valentines, and more. Fast delivery across India."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+<!-- TOAST -->
+<div id="toast"></div>
+
+<!-- ── NAVBAR ── -->
+<nav class="navbar" id="navbar">
+  <a class="logo" href="index.html">giftess</a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#hero">Home</a></li>
+    <li><a href="#bestsellers">Shop</a></li>
+    <li><a href="products.html">All Products</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <div class="nav-right">
+    <button class="nav-btn outline" id="btnLogin"    onclick="openModal('authModal')">Login</button>
+    <button class="nav-btn"         id="btnRegister" onclick="openModal('authModal'); switchTab('register')">Register</button>
+    <div class="user-chip" id="userChip" style="display:none">
+      <span class="chip-dot"></span>
+      <span id="chipName"></span>
+      <button class="chip-logout" onclick="openModal('myOrdersModal')">My Orders</button>
+      <button class="chip-logout" onclick="doLogout()">Logout</button>
+    </div>
+    <div class="cart-wrap" onclick="openCart()">
+      <svg viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+      <span class="cart-badge" id="cartBadge">0</span>
+    </div>
+    <div class="hamburger" id="hamburger" onclick="toggleNav()">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+</nav>
+
+<!-- ── HERO ── -->
+<section class="hero" id="hero">
+  <div class="hero-text reveal">
+    <h1 id="heroTitle">Premium Customised Gift Hampers</h1>
+    <p id="heroSub">Crafted with love. Delivered with care.</p>
+    <div class="hero-btns">
+      <a href="#bestsellers" class="btn-primary" id="heroBtn1">Shop Now</a>
+      <button class="btn-outline" onclick="openCustomModal()" id="heroBtn2">Create Your Own Hamper</button>
+    </div>
+  </div>
+  <div class="hero-art">🎁</div>
+</section>
+
+<!-- ── CATEGORIES ── -->
+<section class="section" id="categories">
+  <div class="section-title">
+    <div class="line"></div><span class="orn">➤</span>
+    <h2>Shop by Category</h2>
+    <span class="orn">◀</span><div class="line"></div>
+  </div>
+  <div class="cat-grid" id="catGrid">
+    <div class="cat-card reveal" onclick="filterCat('Birthday')"><div class="cat-img bg1">🎂</div><span class="cat-label">Birthday Hampers</span></div>
+    <div class="cat-card reveal" onclick="filterCat('Anniversary')"><div class="cat-img bg2">💑</div><span class="cat-label">Anniversary Gifts</span></div>
+    <div class="cat-card reveal" onclick="filterCat('Valentine')"><div class="cat-img bg3">💝</div><span class="cat-label">Valentine Specials</span></div>
+    <div class="cat-card reveal" onclick="filterCat('Her')"><div class="cat-img bg4">👛</div><span class="cat-label">Gifts for Her</span></div>
+    <div class="cat-card reveal" onclick="filterCat('Him')"><div class="cat-img bg5">🎩</div><span class="cat-label">Gifts for Him</span></div>
+    <div class="cat-card reveal" onclick="openCustomModal()"><div class="cat-img bg6">✨</div><span class="cat-label">Build a Custom Hamper</span></div>
+  </div>
+</section>
+
+<!-- ── BEST SELLERS ── -->
+<section class="section pink-bg" id="bestsellers">
+  <div class="section-title">
+    <div class="line"></div><span class="orn">➤</span>
+    <h2>Best Sellers</h2>
+    <span class="orn">◀</span><div class="line"></div>
+  </div>
+  <div class="products-grid" id="productsGrid">
+    <div class="loading-spinner">Loading products…</div>
+  </div>
+  <div style="text-align:center;margin-top:2rem;">
+    <a href="products.html" class="btn-primary">View All Products →</a>
+  </div>
+</section>
+
+<!-- ── WHY CHOOSE US ── -->
+<section class="section why-section">
+  <div class="section-title">
+    <div class="line"></div><span class="orn">➤</span>
+    <h2>Why Choose Giftess?</h2>
+    <span class="orn">◀</span><div class="line"></div>
+  </div>
+  <div class="why-grid">
+    <div class="why-card reveal"><div class="why-icon">🎨</div><h3>100% Customised</h3><p>Every hamper is handpicked and personalised for your loved one.</p></div>
+    <div class="why-card reveal"><div class="why-icon">🚀</div><h3>Fast Delivery</h3><p>Same-day or next-day delivery available across major cities.</p></div>
+    <div class="why-card reveal"><div class="why-icon">💝</div><h3>Premium Quality</h3><p>Curated selection of top-quality products in every hamper.</p></div>
+    <div class="why-card reveal"><div class="why-icon">🛡️</div><h3>Secure & Trusted</h3><p>Thousands of happy customers across India trust Giftess.</p></div>
+  </div>
+</section>
+
+<!-- ── CUSTOMISER ── -->
+<section class="section" id="customise">
+  <div class="customiser-box reveal">
+    <h2><span class="rose">⇢</span> Create Your Own Gift Hamper <span class="rose">⇠</span></h2>
+    <div class="steps">
+      <div class="step"><span class="step-num">1</span>Select Your Box</div>
+      <span class="step-arrow">›</span>
+      <div class="step"><span class="step-num">2</span>Pick Min. 5 Products</div>
+      <span class="step-arrow">›</span>
+      <div class="step"><span class="step-num">3</span>Add a Card</div>
+      <span class="step-arrow">›</span>
+      <div class="step"><span class="step-num">4</span>Preview &amp; Order</div>
+    </div>
+    <button class="btn-customise" onclick="openCustomModal()">Start Customising</button>
+  </div>
+</section>
+
+<!-- ── TESTIMONIALS ── -->
+<section class="section pink-bg" id="testimonials">
+  <div class="section-title">
+    <div class="line"></div><span class="orn">➤</span>
+    <h2>What Our Customers Say</h2>
+    <span class="orn">◀</span><div class="line"></div>
+  </div>
+  <div class="testi-grid">
+    <div class="testi-card reveal">
+      <div class="avatar av1">AC</div>
+      <div class="testi-body"><div class="stars">★★★★★</div><p>"Amazing hampers and fast delivery! My sister absolutely loved it. Giftess made her birthday so special!"</p><strong>Anjali C.</strong></div>
+    </div>
+    <div class="testi-card reveal">
+      <div class="avatar av2">RS</div>
+      <div class="testi-body"><div class="stars">★★★★★</div><p>"Great quality and beautiful packaging. The custom hamper for our anniversary was beyond our expectations."</p><strong>Rajesh S.</strong></div>
+    </div>
+    <div class="testi-card reveal">
+      <div class="avatar av3">PM</div>
+      <div class="testi-body"><div class="stars">★★★★★</div><p>"My friend was so happy with the custom hamper. Totally recommend Giftess for anyone wanting a unique gift!"</p><strong>Priya M.</strong></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── INSTAGRAM ── -->
+<section class="section insta-section" id="instagram">
+  <div class="section-title">
+    <div class="line"></div><span class="orn">➤</span>
+    <h2>Follow Us on Instagram</h2>
+    <span class="orn">◀</span><div class="line"></div>
+  </div>
+  <p class="insta-handle">
+    <a href="https://www.instagram.com/gift.ess" target="_blank" rel="noopener" class="insta-handle-link">@gift.ess</a>
+  </p>
+  <div class="insta-grid">
+    <a href="https://www.instagram.com/gift.ess" target="_blank" rel="noopener" class="insta-cell ig1" aria-label="Instagram post 1"><span class="insta-overlay">View</span></a>
+    <a href="https://www.instagram.com/gift.ess" target="_blank" rel="noopener" class="insta-cell ig2" aria-label="Instagram post 2"><span class="insta-overlay">View</span></a>
+    <a href="https://www.instagram.com/gift.ess" target="_blank" rel="noopener" class="insta-cell ig3" aria-label="Instagram post 3"><span class="insta-overlay">View</span></a>
+    <a href="https://www.instagram.com/gift.ess" target="_blank" rel="noopener" class="insta-cell ig4" aria-label="Instagram post 4"><span class="insta-overlay">View</span></a>
+    <a href="https://www.instagram.com/gift.ess" target="_blank" rel="noopener" class="insta-cell ig5" aria-label="Instagram post 5"><span class="insta-overlay">View</span></a>
+    <a href="https://www.instagram.com/gift.ess" target="_blank" rel="noopener" class="insta-cell ig6" aria-label="Instagram post 6"><span class="insta-overlay">View</span></a>
+  </div>
+  <div style="text-align:center;margin-top:2rem;">
+    <a href="https://www.instagram.com/gift.ess" target="_blank" rel="noopener" class="btn-insta-follow">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:middle;margin-right:.4rem"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+      Follow @gift.ess on Instagram
+    </a>
+  </div>
+</section>
+
+<!-- ── ABOUT US ── -->
+<section class="section about-section" id="about">
+  <div class="about-wrap">
+    <div class="about-text reveal">
+      <h2>About Giftess</h2>
+      <p>Giftess was born out of a simple belief — that every gift should tell a story. We are a passionate team of gifting experts based in India, dedicated to crafting premium, personalised gift hampers that leave a lasting impression.</p>
+      <p>From birthdays and anniversaries to Valentine's Day and custom corporate hampers, we curate every hamper with love, quality products, and beautiful packaging. Our mission is to make gifting effortless, memorable, and truly special for every occasion.</p>
+      <p>We source only the finest products — chocolates, skincare, candles, dry fruits, and more — to ensure every recipient feels valued and celebrated.</p>
+      <div class="about-stats">
+        <div class="about-stat"><span class="stat-num">500+</span><span class="stat-label">Happy Customers</span></div>
+        <div class="about-stat"><span class="stat-num">50+</span><span class="stat-label">Gift Varieties</span></div>
+        <div class="about-stat"><span class="stat-num">100%</span><span class="stat-label">Customisable</span></div>
+      </div>
+    </div>
+    <div class="about-img reveal">
+      <div class="about-img-card">
+        <div class="about-emoji-grid">
+          <span>🎁</span><span>🥂</span><span>💝</span>
+          <span>🌸</span><span>🎂</span><span>✨</span>
+        </div>
+        <p style="text-align:center;font-family:'Dancing Script',cursive;font-size:1.4rem;color:var(--rose);margin-top:1rem;">Gifts with a soul</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CONTACT US ── -->
+<section class="section contact-section" id="contact-us">
+  <div class="section-title">
+    <div class="line"></div><span class="orn">➤</span>
+    <h2>Contact Us</h2>
+    <span class="orn">◀</span><div class="line"></div>
+  </div>
+  <div class="contact-grid">
+    <div class="contact-info reveal">
+      <h3>Get in Touch</h3>
+      <p>We'd love to hear from you! Whether you have a question about our products, want a custom order, or need help with your gift — we're just a message away.</p>
+      <div class="contact-item">
+        <span class="contact-icon">📱</span>
+        <div><strong>WhatsApp</strong><br/><a href="https://wa.me/916002698296" target="_blank">+91 6002698296</a></div>
+      </div>
+      <div class="contact-item">
+        <span class="contact-icon">📸</span>
+        <div><strong>Instagram</strong><br/><a href="https://www.instagram.com/gift.ess" target="_blank">@gift.ess</a></div>
+      </div>
+      <div class="contact-item">
+        <span class="contact-icon">📦</span>
+        <div><strong>Orders</strong><br/>We process orders 7 days a week, 9 AM – 9 PM IST</div>
+      </div>
+    </div>
+    <div class="contact-form reveal">
+      <h3>Send a Message</h3>
+      <div class="form-group"><label>Your Name</label><input type="text" id="contactName" placeholder="Jane Doe"/></div>
+      <div class="form-group"><label>Phone / WhatsApp</label><input type="tel" id="contactPhone" placeholder="9876543210"/></div>
+      <div class="form-group"><label>Message</label><textarea id="contactMsg" rows="4" placeholder="Tell us about your gifting needs…"></textarea></div>
+      <button class="btn-full" onclick="sendContactMsg()">Send via WhatsApp</button>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer id="contact">
+  <div class="footer-top">
+    <div class="footer-brand">
+      <div class="footer-logo">giftess</div>
+      <p>Premium customised gift hampers for every occasion. Crafted with love, delivered with care.</p>
+      <a href="https://www.instagram.com/gift.ess" target="_blank" class="footer-insta">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+        @gift.ess
+      </a>
+    </div>
+    <div class="footer-links-col">
+      <h4>Quick Links</h4>
+      <a href="#hero">Home</a>
+      <a href="#bestsellers">Shop</a>
+      <a href="products.html">All Products</a>
+      <a href="#about">About Us</a>
+      <a href="#contact-us">Contact Us</a>
+    </div>
+    <div class="footer-links-col">
+      <h4>Policies</h4>
+      <a href="refund-policy.html">Refund Policy</a>
+      <a href="#" onclick="openModal('refundModal');return false">Returns & Refunds</a>
+      <a href="admin.html">Admin Panel</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 Giftess. All Rights Reserved. Made with 💝 in India.</p>
+  </div>
+</footer>
+
+<!-- ════════════════════════════════════════
+     MODALS
+════════════════════════════════════════ -->
+
+<!-- AUTH MODAL -->
+<div class="modal-overlay" id="authModal">
+  <div class="modal modal-sm">
+    <button class="modal-close" onclick="closeModal('authModal')">✕</button>
+    <div class="auth-tabs">
+      <div class="auth-tab active" id="tabLogin"    onclick="switchTab('login')">Login</div>
+      <div class="auth-tab"        id="tabRegister" onclick="switchTab('register')">Register</div>
+    </div>
+    <div id="loginPane">
+      <div class="form-group"><label>Email</label><input type="email" id="loginEmail" placeholder="you@email.com"/><div class="form-err" id="loginEmailErr"></div></div>
+      <div class="form-group"><label>Password</label><input type="password" id="loginPw" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()"/><div class="form-err" id="loginErr"></div></div>
+      <button class="btn-full" onclick="doLogin()">Login</button>
+      <p class="auth-switch">Don't have an account? <button class="link-btn" onclick="switchTab('register')">Register</button></p>
+    </div>
+    <div id="registerPane" style="display:none">
+      <div class="form-row">
+        <div class="form-group"><label>First Name</label><input type="text" id="regFirst" placeholder="Jane"/><div class="form-err" id="regFirstErr"></div></div>
+        <div class="form-group"><label>Last Name</label><input type="text" id="regLast" placeholder="Doe"/></div>
+      </div>
+      <div class="form-group"><label>Email</label><input type="email" id="regEmail" placeholder="you@email.com"/><div class="form-err" id="regEmailErr"></div></div>
+      <div class="form-group"><label>Phone</label><input type="tel" id="regPhone" placeholder="9876543210"/></div>
+      <div class="form-group"><label>Password</label><input type="password" id="regPw" placeholder="Min 6 characters"/><div class="form-err" id="regPwErr"></div></div>
+      <div class="form-group"><label>Confirm Password</label><input type="password" id="regPw2" placeholder="Repeat password"/><div class="form-err" id="regPw2Err"></div></div>
+      <button class="btn-full" onclick="doRegister()">Create Account</button>
+      <p class="auth-switch">Already have an account? <button class="link-btn" onclick="switchTab('login')">Login</button></p>
+    </div>
+  </div>
+</div>
+
+<!-- CART MODAL -->
+<div class="modal-overlay" id="cartModal">
+  <div class="modal modal-md">
+    <button class="modal-close" onclick="closeModal('cartModal')">✕</button>
+    <h3>🛒 Your Cart</h3>
+    <div id="cartItemsWrap" style="max-height:300px;overflow-y:auto;margin-bottom:1rem;"></div>
+    <!-- Promo Code -->
+    <div class="promo-row">
+      <input type="text" id="promoInput" placeholder="Promo / Discount Code" class="promo-input"/>
+      <button class="btn-promo" onclick="applyPromoCode()">Apply</button>
+    </div>
+    <div id="promoMsg" class="promo-msg"></div>
+    <div id="cartTotal" class="cart-total" style="margin-top:.6rem;"></div>
+    <button class="btn-full" style="margin-top:1rem;" onclick="doCheckout()">Proceed to Checkout →</button>
+  </div>
+</div>
+
+<!-- CHECKOUT MODAL -->
+<div class="modal-overlay" id="checkoutModal">
+  <div class="modal modal-lg">
+    <button class="modal-close" onclick="closeModal('checkoutModal')">✕</button>
+    <h3>📦 Delivery Details</h3>
+    <p style="font-size:.85rem;color:var(--gray);margin-bottom:1rem;">Please fill in your delivery information to complete your order.</p>
+    <div class="checkout-layout">
+      <div class="checkout-form">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Full Name *</label>
+            <input type="text" id="chkName" placeholder="Your full name"/>
+            <div class="form-err" id="chkNameErr"></div>
+          </div>
+          <div class="form-group">
+            <label>Phone Number *</label>
+            <input type="tel" id="chkPhone" placeholder="10-digit mobile number"/>
+            <div class="form-err" id="chkPhoneErr"></div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Email Address *</label>
+          <input type="email" id="chkEmail" placeholder="you@email.com"/>
+          <div class="form-err" id="chkEmailErr"></div>
+        </div>
+        <div class="form-group">
+          <label>PIN Code *</label>
+          <input type="text" id="chkPin" placeholder="6-digit PIN code" maxlength="6" oninput="this.value=this.value.replace(/\D/g,'')"/>
+          <div class="form-err" id="chkPinErr"></div>
+        </div>
+        <div class="form-group">
+          <label>Full Delivery Address *</label>
+          <textarea id="chkAddress" rows="3" placeholder="House/Flat No., Street, Area, City, State…"></textarea>
+          <div class="form-err" id="chkAddressErr"></div>
+        </div>
+        <div class="checkout-note">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+          After clicking "Place Order", your order details will be sent to our WhatsApp for confirmation and processing.
+        </div>
+        <button class="btn-full btn-place-order" onclick="placeOrder()">
+          Place Order & Confirm on WhatsApp →
+        </button>
+      </div>
+      <div class="checkout-summary-panel" id="checkoutSummary">
+        <!-- filled by renderCheckoutSummary() -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ORDER SUCCESS MODAL -->
+<div class="modal-overlay" id="orderSuccessModal">
+  <div class="modal modal-sm" style="text-align:center;">
+    <div style="font-size:4rem;margin-bottom:1rem;">🎉</div>
+    <h3>Order Placed!</h3>
+    <p style="color:var(--gray);margin:.5rem 0;">Your order has been sent to our team via WhatsApp.</p>
+    <div style="background:var(--pink-soft);border-radius:10px;padding:1rem;margin:1rem 0;">
+      <div style="font-size:.82rem;color:var(--gray);">Order ID</div>
+      <div id="orderSuccessId" style="font-family:monospace;font-size:1.1rem;font-weight:700;color:var(--rose);"></div>
+      <div style="font-size:.82rem;color:var(--gray);margin-top:.4rem;">Total Paid</div>
+      <div id="orderSuccessTotal" style="font-size:1.2rem;font-weight:700;"></div>
+    </div>
+    <p style="font-size:.85rem;color:var(--gray);">We'll confirm your order and share delivery updates on WhatsApp.</p>
+    <button class="btn-full" onclick="closeModal('orderSuccessModal')" style="margin-top:1rem;">Continue Shopping</button>
+  </div>
+</div>
+
+<!-- MY ORDERS MODAL -->
+<div class="modal-overlay" id="myOrdersModal">
+  <div class="modal" style="max-width:700px;">
+    <button class="modal-close" onclick="closeModal('myOrdersModal')">✕</button>
+    <h3>📦 My Orders</h3>
+    <div id="myOrdersList" style="margin-top:1rem;"></div>
+  </div>
+</div>
+
+<!-- REFUND POLICY MODAL -->
+<div class="modal-overlay" id="refundModal">
+  <div class="modal" style="max-width:620px;">
+    <button class="modal-close" onclick="closeModal('refundModal')">✕</button>
+    <h3>Refund & Return Policy</h3>
+    <div class="policy-content">
+      <h4>Our Policy</h4>
+      <p>At Giftess, we are committed to ensuring your complete satisfaction. We take great care in preparing and packaging every hamper.</p>
+      <h4>Eligibility for Refunds</h4>
+      <ul>
+        <li>Refund requests must be made within <strong>48 hours</strong> of delivery.</li>
+        <li>Products must be unused, undamaged, and in original packaging.</li>
+        <li>Personalised and custom hampers are non-refundable once confirmed.</li>
+        <li>Perishable items (chocolates, food products) are non-refundable.</li>
+      </ul>
+      <h4>Damaged or Wrong Items</h4>
+      <p>If you receive a damaged or incorrect product, please contact us on WhatsApp within 24 hours with photos. We will arrange a replacement or full refund.</p>
+      <h4>How to Request a Refund</h4>
+      <p>Contact us on WhatsApp at <strong>+91 6002698296</strong> with your Order ID and photos (if applicable). Our team will respond within 24 hours.</p>
+      <h4>Processing Time</h4>
+      <p>Approved refunds are processed within 5–7 business days to your original payment method.</p>
+    </div>
+  </div>
+</div>
+
+<!-- CUSTOMISER MODAL -->
+<div class="modal-overlay" id="customModal">
+  <div class="modal" style="max-width:680px;">
+    <button class="modal-close" onclick="closeModal('customModal')">✕</button>
+    <div class="prog-dots" id="custDots">
+      <div class="prog-dot active"></div><div class="prog-dot"></div>
+      <div class="prog-dot"></div><div class="prog-dot"></div>
+    </div>
+    <!-- Step 1 -->
+    <div id="cs1">
+      <h3>🎁 Step 1: Select Your Box</h3>
+      <div class="modal-opts">
+        <div class="modal-opt" onclick="selOpt(this,'box','Pink Gift Box')"><span class="em">🎀</span>Pink Gift Box</div>
+        <div class="modal-opt" onclick="selOpt(this,'box','Rustic Wooden Box')"><span class="em">🪵</span>Rustic Wooden Box</div>
+        <div class="modal-opt" onclick="selOpt(this,'box','Luxury Black Box')"><span class="em">🖤</span>Luxury Black Box</div>
+        <div class="modal-opt" onclick="selOpt(this,'box','Wicker Basket')"><span class="em">🧺</span>Wicker Basket</div>
+      </div>
+      <div class="modal-nav"><button class="modal-next" onclick="csGo(2)">Next →</button></div>
+    </div>
+    <!-- Step 2 -->
+    <div id="cs2" style="display:none">
+      <h3>🛍️ Step 2: Choose Products <span style="font-size:.8rem;color:var(--rose);font-weight:400;">(Min. 5)</span></h3>
+      <div id="csProductCount" style="font-size:.85rem;color:var(--gray);margin-bottom:.8rem;text-align:center;">0 products selected</div>
+      <div class="cs-products-grid" id="csProductsGrid"><div style="text-align:center;padding:2rem;color:var(--gray);">Loading…</div></div>
+      <div class="modal-nav"><button class="modal-prev" onclick="csGo(1)">← Back</button><button class="modal-next" onclick="csGoStep3()">Next →</button></div>
+    </div>
+    <!-- Step 3 -->
+    <div id="cs3" style="display:none">
+      <h3>💌 Step 3: Add a Card Message</h3>
+      <textarea id="csMsg" class="cs-textarea" placeholder="Write your heartfelt message…"></textarea>
+      <div class="modal-nav"><button class="modal-prev" onclick="csGo(2)">← Back</button><button class="modal-next" onclick="csGo(4)">Next →</button></div>
+    </div>
+    <!-- Step 4 -->
+    <div id="cs4" style="display:none">
+      <h3>✨ Preview &amp; Order</h3>
+      <div id="csSummary" class="cs-summary"></div>
+      <div class="modal-nav"><button class="modal-prev" onclick="csGo(3)">← Back</button><button class="modal-next wa-btn" onclick="csOrder()">📲 Place Custom Order</button></div>
+    </div>
+  </div>
+</div>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox">
+  <button class="lb-close" onclick="closeLb()">✕</button>
+  <button class="lb-nav lb-prev" onclick="lbNav(-1)">‹</button>
+  <img id="lbImg" src="" alt="product"/>
+  <button class="lb-nav lb-next" onclick="lbNav(1)">›</button>
+</div>
+
+<!-- ── SCRIPTS ── -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="config.js"></script>
+<script src="app.js"></script>
+<script>
+function sendContactMsg() {
+  const name  = document.getElementById('contactName')?.value.trim() || '';
+  const phone = document.getElementById('contactPhone')?.value.trim() || '';
+  const msg   = document.getElementById('contactMsg')?.value.trim() || '';
+  if (!name || !msg) { toast('Please fill in your name and message', 'error'); return; }
+  const waText = encodeURIComponent(`Hi Giftess! My name is ${name}.\nPhone: ${phone || 'not provided'}\n\n${msg}`);
+  window.open(`https://wa.me/${DEFAULT_WA}?text=${waText}`, '_blank');
+}
+</script>
+</body>
+</html>
