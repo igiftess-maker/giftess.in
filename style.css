@@ -300,24 +300,38 @@ button { font-family: 'Lato', sans-serif; cursor: pointer; }
 .ig6{background:linear-gradient(135deg,#d8f0d8,#90c890);}
 
 
+/* Link wrapper */
 .ig-profile-link {
-  display: inline-block;
-  max-width: 800px;
+  display: block;
+  margin: 0 auto;
+  width: 100%;
+  max-width: 420px; /* MOBILE PHONE SIZE */
 }
 
+/* Screenshot image */
 .ig-profile-img {
   width: 100%;
+  height: auto;
   border-radius: 18px;
-  box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+  box-shadow: 0 12px 35px rgba(0,0,0,0.18);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   cursor: pointer;
 }
 
-.ig-profile-img:hover {
-  transform: scale(1.03);
-  box-shadow: 0 25px 60px rgba(0,0,0,0.25);
+/* Hover only on desktop */
+@media (hover: hover) {
+  .ig-profile-img:hover {
+    transform: scale(1.03);
+    box-shadow: 0 22px 55px rgba(0,0,0,0.25);
+  }
 }
 
+/* 🖥️ DESKTOP: make it smaller and elegant */
+@media (min-width: 1024px) {
+  .ig-profile-link {
+    max-width: 340px; /* Smaller than mobile */
+  }
+}
 
 
 /* ── FOOTER ── */
