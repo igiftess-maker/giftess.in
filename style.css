@@ -299,6 +299,27 @@ button { font-family: 'Lato', sans-serif; cursor: pointer; }
 .ig5{background:linear-gradient(135deg,#fff0d0,#f0d090);}
 .ig6{background:linear-gradient(135deg,#d8f0d8,#90c890);}
 
+
+.ig-profile-link {
+  display: inline-block;
+  max-width: 800px;
+}
+
+.ig-profile-img {
+  width: 100%;
+  border-radius: 18px;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+}
+
+.ig-profile-img:hover {
+  transform: scale(1.03);
+  box-shadow: 0 25px 60px rgba(0,0,0,0.25);
+}
+
+
+
 /* ── FOOTER ── */
 footer {
   background: var(--charcoal); color: #ccc;
