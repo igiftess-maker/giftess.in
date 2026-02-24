@@ -2,7 +2,8 @@
    GIFTESS – STOREFRONT LOGIC v2.0
    app.js  (requires config.js + Supabase CDN)
 ═══════════════════════════════════════ */
-
+// 🔑 Defaults
+const DEFAULT_WA = "916002698296"; // ← replace with your real WhatsApp number
 /* ── Init Supabase ── */
 /* ── Init Supabase ── */
 const sb = window.supabase;
