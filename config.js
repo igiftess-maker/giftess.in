@@ -1,13 +1,13 @@
+
 // config.js
 import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
 
 console.log("✅ config.js loaded");
 
-// 🔑 Supabase credentials
-const SUPABASE_URL = "https://wwobmpujirwvonkbkffz.supabase.co";
+const SUPABASE_URL = "https://wvobmpujirwvonkbkffz.supabase.co";
 const SUPABASE_ANON_KEY = "sb_publishable_KVWGzSiKNtEYIp0LnUtW9w_tl0BTOle";
 
-// ✅ Create client FIRST
+// ✅ Create client
 const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
   auth: {
     persistSession: false,
@@ -15,26 +15,17 @@ const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
   },
 });
 
-// ✅ THEN expose globally
-window.supabase = supabase;
-
 console.log("✅ Supabase client ready");
 
-// 🧪 Test query (must run without error)
+// ✅ EXPOSE THE CORRECT VARIABLE
+window.supabase = supabase;
+
+// 🧪 TEMP TEST (keep for now)
 (async () => {
   console.log("🧪 Running Supabase test query...");
-  const { data, error } = await supabase
-    .from("products")
-    .select("id, name")
-    .limit(1);
-
+  const { data, error } = await supabase.from("products").select("*");
   console.log("🧪 Supabase test result:", data, error);
 })();
-
-// Default WhatsApp number (overridden from store_settings)
-const DEFAULT_WA = '916002698296';
-
-window.sb = supabaseClient;
 
 
 
