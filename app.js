@@ -4,8 +4,10 @@
 ═══════════════════════════════════════ */
 
 /* ── Init Supabase ── */
-const { createClient } = supabase;
-const sb = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+/* ── Init Supabase ── */
+const sb = window.supabase;
+
+
 
 /* ── State ── */
 let currentUser   = null;
