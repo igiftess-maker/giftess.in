@@ -34,7 +34,7 @@ console.log("✅ Supabase client ready");
 // Default WhatsApp number (overridden from store_settings)
 const DEFAULT_WA = '916002698296';
 
-
+window.sb = supabaseClient;
 
 
 
