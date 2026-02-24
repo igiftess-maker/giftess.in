@@ -1,3 +1,5 @@
+
+console.log("✅ config.js loaded");
 // ─────────────────────────────────────────
 //  Giftess – Supabase Configuration
 // ─────────────────────────────────────────
