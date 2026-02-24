@@ -10,3 +10,13 @@ const SUPABASE_ANON_KEY = "sb_publishable_KVWGzSiKNtEYIp0LnUtW9w_tl0BTOle";
 const DEFAULT_WA = '916002698296';
 window.supabaseClient = supabase;
 console.log("✅ Supabase client ready", supabase);
+(async () => {
+  console.log("🧪 Running Supabase test query...");
+
+  const { data, error } = await supabase
+    .from("products")
+    .select("id, name")
+    .limit(1);
+
+  console.log("🧪 Supabase test result:", data, error);
+})();
